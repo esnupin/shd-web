@@ -1,0 +1,36 @@
+<div class="container">
+  <header class="d-flex justify-content-between align-items-center my-3">
+    <h2>Muro de Publicaciones</h2>
+    <button (click)="cerrarSesion()">Cerrar Sesión</button>
+  </header>
+
+  <div class="card mb-4 p-3">
+    <h5>{{ postEditandoId() ? 'Editar publicación' : '¿Qué está pasando?' }}</h5>
+    <input type="text" [(ngModel)]="titulo" placeholder="Título" class="form-control mb-2">
+    <textarea [(ngModel)]="cuerpo" placeholder="Escribe tu publicación..." class="form-control mb-2"></textarea>
+    
+    <div>
+      <button (click)="guardarPost()">
+        {{ postEditandoId() ? 'Actualizar' : 'Publicar' }}
+      </button>
+      @if (postEditandoId()) {
+        <button (click)="limpiarFormulario()">Cancelar</button>
+      }
+    </div>
+  </div>
+
+  <div class="feed">
+    @for (post of posts(); track post.id) {
+      <div class="card mb-2">
+        <div class="card-body">
+          <h5>{{ post.title }}</h5>
+          <p class="card-text">{{ post.body }}</p>
+          <small class="text-muted d-block mb-2">Usuario #{{ post.userId }}</small>
+          
+          <button (click)="prepararEdicion(post)">Modificar</button>
+          <button (click)="eliminar(post.id)">Eliminar</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
